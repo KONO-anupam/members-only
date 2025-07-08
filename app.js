@@ -4,8 +4,8 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStratergy = require('passport-local').Stratergy;
 require('dotenv').config();
+const userController = require('../controllers/UserController')
 const app = express();
-
 app.set("views",path.join(__dirname, "views"));
 
 app.use(session({secret:process.env.SESSION_SECRET, resave: false, saveUninitialized:false}));
