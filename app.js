@@ -2,9 +2,9 @@ const express = require('express');
 const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
-const LocalStratergy = require('passport-local').Stratergy;
+const LocalStrategy = require('passport-local').Strategy;
 require('dotenv').config();
-const userController = require('./controllers/UserController.js')
+const userController = require('./controllers/UserController')
 const app = express();
 app.set("views",path.join(__dirname, "views"));
 
