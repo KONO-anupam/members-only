@@ -1,5 +1,5 @@
 const db = require('../db/query.js');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 async function insertUser(req,res){
     try{
         const {username,password} = req.body;
