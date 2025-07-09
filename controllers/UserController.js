@@ -1,9 +1,9 @@
 const db = require('../db/query.js');
-
+const bcrypt = require('bcrypt');
 async function insertUser(req,res){
     try{
-        const hashedPassword = brypt.hash(req.body.password,10);
-        const {username,hashedPassword} = req.body;
+        const {username,password} = req.body;
+        const hashedPassword = await brypt.hash(req.body.password,10);
 
         const user = await db.insertUser({username, hashedPassword})
     }   

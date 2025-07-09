@@ -4,7 +4,7 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStratergy = require('passport-local').Stratergy;
 require('dotenv').config();
-const userController = require('../controllers/UserController')
+const userController = require('../controllers/UserController.js')
 const app = express();
 app.set("views",path.join(__dirname, "views"));
 
@@ -13,6 +13,7 @@ app.use(passport.session());
 app.use(express.urlencoded({extended:false}));
 
 app.get('/',(req,res) => res.sendFile(path.join(__dirname,'views','SignUpForm.html'))); 
+app.post('/',userController.insertUser);
 
 
 const PORT = process.env.PORT || 3000
