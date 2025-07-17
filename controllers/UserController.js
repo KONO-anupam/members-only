@@ -6,6 +6,7 @@ async function insertUser(req,res){
         const hashedPassword = await bcrypt.hash(req.body.password,10);
 
         const user = await db.insertUser({fullname,email,hashedPassword,admin})
+        res.redirect('/');
     }   
     catch(error){
         console.error(error);
