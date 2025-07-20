@@ -7,15 +7,26 @@ require('dotenv').config();
 const userController = require('./controllers/UserController')
 const app = express();
 app.set("views",path.join(__dirname, "views"));
+const {findUserByEmail} = require('./db/query');
+const { body } = require('express-validator');
 
 app.use(session({secret:process.env.SESSION_SECRET, resave: false, saveUninitialized:false}));
 app.use(passport.session());
 app.use(express.urlencoded({extended:false}));
 
-app.get('/',(req,res) => res.sendFile(path.join(__dirname,'views','SignUpForm.html'))); 
-app.post('/',userController.insertUser);
+app.get('/sign-up',(req,res) => res.sendFile(path.join(__dirname,'views','SignUpForm.html'))); 
+app.post('/sign-up',body('password').isLength({ min: 5 }),
+  [body('passwordConfirmation').custom((value, { req }) => {
+    return value === req.body.password;
+  })
+  ,body('email').custom(async value => {
+    const user = await findUserByEmail(value);
+    if (user) {
+      throw new Error('E-mail already in use');
+    }
+  })],userController.insertUser);
 
-app.get('/home',(req,res) => res.sendFile(path.join(__dirname,'views','HomePage.html')))
+app.get('/message',(req,res) => res.sendFile(path.join(__dirname,'views','MessagePage.html')))
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
